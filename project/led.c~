@@ -1,0 +1,18 @@
+#include <msp430.h>
+#include "led.h"
+
+unsigned char red_on = 0, green_on = 0;
+
+void led_init(){
+  P1DIR |= LEDS;
+  led_update();
+}
+
+void led_update(){
+  if(led_changed){
+    char ledFlags = redVal[red_on] | greenVal[green_on];
+    P1OUT &= (0xff^LEDS) | ledFlags;
+    P1OUT |= ledFlags;
+    led_changed = 0;
+  }
+}

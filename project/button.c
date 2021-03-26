@@ -1,0 +1,29 @@
+#include <msp430.h>
+#include "button.h"
+#include "led.h"
+
+char button_state_down, button_state_changed;
+
+static char button_update_interrupt_sense(){
+  char p2val = P2IN;
+
+  P2IES |= (p2val & BUTTONS);
+  P2IES &= (p2val | ~BUTTONS);
+  return p2val;
+}
+
+void button_init(){
+  P2REN |= BUTTONS;
+  P2IE |= BUTTONS;
+  P2OUT |= BUTTONS;
+  P2DIR &= ~BUTTONS;
+  button_update_interrupt_sense();
+  led_update();
+}
+
+void button_interrupt_handler(){
+  char p2val = button_update_interrupt_sense();
+  button_state_down = (p2val & BUTTONS) ? 0 : 1;
+  button_state_changed = 1;
+  led_update();
+}

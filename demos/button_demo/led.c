@@ -21,4 +21,3 @@ void led_update(){
   }
   switch_state_changed = 0;
 }
-
