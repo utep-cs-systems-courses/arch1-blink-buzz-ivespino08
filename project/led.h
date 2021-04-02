@@ -1,5 +1,6 @@
 #ifndef led_included
 #define led_included
+
 #include <msp430.h>
 
 #define LED_RED BIT0               // P1.0
@@ -10,6 +11,6 @@ extern unsigned char red_on, green_on;
 extern unsigned char led_changed;
 
 void led_init();
-void led_update();
+void led_update(char flags);
 
 #endif

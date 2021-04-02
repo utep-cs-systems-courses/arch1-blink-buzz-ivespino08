@@ -1,6 +1,8 @@
 #include <msp430.h>
 #include "button.h"
 #include "led.h"
+#include "stateMachine.h"
+#include "timerLib/libTimer.h"
 
 char button_state_down, button_state_changed;
 
@@ -18,12 +20,18 @@ void button_init(){
   P2OUT |= BUTTONS;
   P2DIR &= ~BUTTONS;
   button_update_interrupt_sense();
-  led_update();
+  led_update(0);
 }
 
 void button_interrupt_handler(){
   char p2val = button_update_interrupt_sense();
-  button_state_down = (p2val & BUTTONS) ? 0 : 1;
+  
+  button_state_down |= (p2val & BT1) ? 0 : 1;
+  button_state_down |= (p2val & BT2) ? 0 : 1;
+  button_state_down |= (p2val & BT3) ? 0 : 1;
+  button_state_down |= (p2val & BT4) ? 0 : 1;
+  
   button_state_changed = 1;
-  led_update();
+
+  state_main();
 }

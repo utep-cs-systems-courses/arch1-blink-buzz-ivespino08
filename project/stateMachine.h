@@ -1,6 +1,7 @@
 #ifndef stateMachine_included
 #define stateMachine_included
 
-char state_main();
+void state_main();
+char state_advance();
 
 #endif

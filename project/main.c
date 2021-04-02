@@ -4,9 +4,11 @@
 #include "buzzer.h"
 #include "button.h"
 
-int main(){
+void main(void){
   configureClocks();
-  led_init();
   button_init();
+  led_init();
   buzzer_init();
+
+  or_sr(0x18);
 }
